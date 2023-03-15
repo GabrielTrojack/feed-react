@@ -1,9 +1,21 @@
 import { ThumbsUp, Trash } from "phosphor-react";
+import { useState } from "react";
 import { Avatar } from "./Avatar";
 
 import styles from "./Comment.module.css";
 
-export function Comment({ content }) {
+export function Comment({ content, onDeleteComment }) {
+  const [likeCount, setLikeCount] = useState(0)
+
+  function handleDeletecomment() {
+    onDeleteComment(content)
+  }
+  function handelLikeComment() {
+    setLikeCount((state) => {
+      return state + 1
+    });
+  }
+
   return (
     <div className={styles.comment}>
       <Avatar hasBorder={false} src="https://github.com/GabrielTrojack.png" />
@@ -16,7 +28,7 @@ export function Comment({ content }) {
               <time title="28 de fevereiro às 20:37" dateTime="2023-02-13 20:36:00">cerca de 1h atrás</time>
             </div>
 
-            <button title="deletar comentario">
+            <button onClick={handleDeletecomment} title="deletar comentario">
               <Trash size={24} />
             </button>
           </header>
@@ -24,9 +36,9 @@ export function Comment({ content }) {
         </div>
 
         <footer>
-          <button>
+          <button onClick={handelLikeComment}>
             <ThumbsUp />
-            Curtir <span>20 </span>
+            Curtir <span>{likeCount}</span>
           </button>
         </footer>
       </div>
